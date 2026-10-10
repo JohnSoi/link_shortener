@@ -23,3 +23,8 @@ docker compose up -d <название контейнера>
 docker compose logs -f <название контейнера>
 ```
 
+* Пересборка контейнера:
+
+```bash
+docker-compose up --build <название контейнера>
+```
