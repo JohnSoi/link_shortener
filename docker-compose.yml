@@ -23,6 +23,8 @@ services:
       context: ./backend
       dockerfile: ./Dockerfile
     container_name: link_shortener_backend
+    env_file:
+      - .env
     restart: unless-stopped
     ports:
       - "8000:8000"
