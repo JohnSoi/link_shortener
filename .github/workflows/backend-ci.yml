@@ -1,0 +1,69 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'backend/**'
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.14"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.28"
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: uv sync --frozen --no-dev
+
+      - name: Install dev dependencies
+        working-directory: ./backend
+        run: uv sync --frozen
+
+      # ─── Ruff Check ──────────────────────────────────────────────
+      - name: Ruff check
+        working-directory: ./backend
+        run: uv run ruff check app/
+
+      # ─── Ruff Format ─────────────────────────────────────────────
+      - name: Ruff format (check)
+        working-directory: ./backend
+        run: uv run ruff format --check app/
+
+      # ─── Radon ───────────────────────────────────────────────────
+      - name: Radon complexity check
+        working-directory: ./backend
+        run: uv run radon cc app/ --min c --json > radon-report.json || true
+
+      - name: Radon human-readable report
+        working-directory: ./backend
+        run: uv run radon cc app/ -a -s
+
+      # ─── Pylint ──────────────────────────────────────────────────
+      - name: Pylint
+        working-directory: ./backend
+        run: uv run pylint app/ --exit-zero
+
+      # ─── Pyright ─────────────────────────────────────────────────
+      - name: Pyright type check
+        working-directory: ./backend
+        run: uv run pyright app/
