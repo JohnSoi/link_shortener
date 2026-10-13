@@ -10,6 +10,23 @@ dependencies = [
     "fastapi>=0.142.2",
     "pydantic>=2.13.5",
     "pydantic-settings>=2.15.0",
-    "sqlalchemy[async,asyncio]>=2.1.4",
+    "pyright>=1.1.414",
+    "sqlalchemy[asyncio]>=2.1.4",
     "uvicorn>=0.54.0",
 ]
+
+[dependency-groups]
+dev = [
+    "pylint>=4.1.2",
+    "radon>=6.0.1",
+    "ruff>=0.17.0",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+ignore = ["F401"]

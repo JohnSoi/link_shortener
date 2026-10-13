@@ -1,1 +1,3 @@
-from .config import app_config, AppConfig
+"""Пакет основного функционала приложения."""
+
+from .config import AppConfig, app_config

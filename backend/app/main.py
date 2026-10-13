@@ -1,4 +1,6 @@
-from fastapi import FastAPI, Depends
+"""Входная точка в приложение."""
+
+from fastapi import Depends, FastAPI
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,11 +16,20 @@ app: FastAPI = FastAPI(
 
 
 @app.get("/health", description="Проверка состояния приложения")
-async def health_check(async_db_session: AsyncSession = Depends(get_async_db_session)) -> dict:
+async def health_check(async_db_session: AsyncSession = Depends(get_async_db_session)) -> dict:  # noqa: B008
+    """
+    Маршрут для проверки состояния приложения.
+
+    Args:
+        async_db_session (AsyncSession): Сессия для подключения к БД.
+
+    Returns:
+        dict: Статус работы приложения.
+    """
     params: dict = {"status": "ok", "debug": app_config.DEBUG}
 
     if app_config.DEBUG:
-        db_check_query =await async_db_session.execute(text("SELECT 1"))
+        db_check_query = await async_db_session.execute(text("SELECT 1"))
 
         params.update(
             {

@@ -1,3 +1,5 @@
+"""Конфиги приложения."""
+
 from pathlib import Path
 from typing import Literal
 
@@ -7,11 +9,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 class DatabaseConfig(BaseSettings):
+    """
+    Конфиг для работы с БД.
+
+    Notes:
+        Все параметры в .env файле должны начинаться с DB_.
+
+    Attributes:
+        NAME: Имя БД.
+        HOST: Хост БД.
+        PORT: Порт БД.
+        USER: Пользователь БД.
+        PASSWORD: Пароль БД.
+        TYPE: Тип БД.
+    """
+
     model_config = SettingsConfigDict(
-        env_file=BASE_DIR / ".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
-        env_prefix="DB_"
+        env_file=BASE_DIR / ".env", env_file_encoding="utf-8", extra="ignore", env_prefix="DB_"
     )
 
     NAME: str = "link_shortener_db"
@@ -24,18 +38,35 @@ class DatabaseConfig(BaseSettings):
 
     @property
     def url(self) -> str:
+        """
+        Адрес для подключения к БД.
+
+        Returns:
+            str: Адрес для подключения к БД.
+        """
         return f"{self.TYPE}+{self.ENGINE}://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.NAME}"
 
 
 class AppConfig(BaseSettings):
+    """
+    Конфиг приложения.
+
+    Notes:
+        Все параметры в .env файле должны начинаться с APP_.
+
+    Attributes:
+        NAME: Имя приложения.
+        DESCRIPTION: Описание приложения.
+        VERSION: Версия приложения.
+        ENV: Окружение приложения.
+        DEBUG: Режим отладки.
+    """
+
     model_config = SettingsConfigDict(
-        env_file=BASE_DIR / ".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
-        env_prefix="APP_"
+        env_file=BASE_DIR / ".env", env_file_encoding="utf-8", extra="ignore", env_prefix="APP_"
     )
 
-    db: DatabaseConfig = DatabaseConfig()
+    db: DatabaseConfig = DatabaseConfig()  # type: ignore
 
     NAME: str
     DESCRIPTION: str
@@ -44,4 +75,4 @@ class AppConfig(BaseSettings):
     DEBUG: bool = False
 
 
-app_config: AppConfig = AppConfig()
+app_config: AppConfig = AppConfig()  # type: ignore

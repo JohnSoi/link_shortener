@@ -1,6 +1,9 @@
-from typing import Any, AsyncGenerator
+"""Движок для подключения к БД и получения сессии."""
 
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker, AsyncEngine
+from collections.abc import AsyncGenerator
+from typing import Any
+
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from app.core.config import app_config
 
@@ -9,6 +12,21 @@ session_maker: async_sessionmaker[AsyncSession] = async_sessionmaker(engine, exp
 
 
 async def get_async_db_session() -> AsyncGenerator[AsyncSession, Any]:
+    """
+    Получение сессии подключения к БД.
+
+    Yields:
+        AsyncSession: Сессия подключения к БД.
+
+    Examples:
+        >>> from fastapi import FastAPI, Depends
+        >>>
+        >>> app = FastAPI()
+        >>>
+        >>> @app.get("/")
+        >>> async def example(db_session: AsyncSession = Depends(get_async_db_session)):
+        ...     pass
+    """
     async with session_maker() as session:
         try:
             yield session
