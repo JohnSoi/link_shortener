@@ -3,7 +3,7 @@
 
 from datetime import datetime
 
-from sqlalchemy import text, func
+from sqlalchemy import func, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -26,10 +26,7 @@ class DatetimeMixin:
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        default=datetime.now,
-        nullable=False,
-        server_default=func.now(),
-        onupdate=func.now()
+        default=datetime.now, nullable=False, server_default=func.now(), onupdate=func.now()
     )
 
     @property

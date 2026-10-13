@@ -15,6 +15,7 @@ class User(BaseModel, DatetimeMixin):
         email (str): Электронная почта пользователя.
         password_hash (str): Хэш пароля пользователя.
     """
+
     __tablename__ = "users"
 
     email: Mapped[str] = mapped_column(String(DEFAULT_STRING_LENGTH), unique=True, nullable=False)
