@@ -61,7 +61,7 @@ jobs:
       # ─── Pylint ──────────────────────────────────────────────────
       - name: Pylint
         working-directory: ./backend
-        run: uv run pylint app/ --exit-zero
+        run: uv run pylint app/ --exit-zero --max-line-length=120
 
       # ─── Pyright ─────────────────────────────────────────────────
       - name: Pyright type check

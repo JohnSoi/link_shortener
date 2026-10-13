@@ -13,8 +13,6 @@ class BaseModel(DeclarativeBase):
 
     Notes:
         Абстрактная базовая модель для всех моделей приложения.
-        Самостоятельно формирует имя таблицы на основе имени класса.
-        Если необходимо переопределить имя таблицы, можно использовать метод __tablename__.
 
     Attributes:
         id (int): Идентификатор записи.
@@ -27,18 +25,14 @@ class BaseModel(DeclarativeBase):
         >>>
         >>> # Модель пользователя с именем таблицы "user"
         >>> class User(BaseModel):
+        ...     __tablename__ = "users"
         ...     name: str = mapped_column()
         >>>
         >>>
         >>> # Модель действия пользователя с именем таблицы "user_action"
         >>> class UserAction(BaseModel):
+        ...     __tablename__ = "user_action"
         ...     user_id: int = mapped_column()
-        >>>
-        >>>
-        >>> # Модель действия пользователя c переопределенным именем таблицы "actions"
-        >>> class Action(BaseModel):
-        ...     __tablename__: str = "actions"
-        >>>
     """
 
     __abstract__: bool = True
@@ -53,13 +47,6 @@ class BaseModel(DeclarativeBase):
             dict: Словарь с атрибутами объекта.
         """
         return {column.name: getattr(self, column.name) for column in self.__table__.columns}
-
-    @classmethod
-    def __tablename__(cls) -> str:
-        """Название таблицы из имени класса."""
-        s1: str = re.sub(CAMEL_CASE_REGEX, REPLACE_PATTERN, cls.__name__)
-        s2: str = re.sub(CAMEL_CASE_ABBR_REGEX, REPLACE_PATTERN, s1)
-        return s2.lower()
 
     def __repr__(self) -> str:
         """Строковое представление объекта."""
