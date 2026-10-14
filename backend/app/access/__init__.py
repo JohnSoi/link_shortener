@@ -1,3 +1,3 @@
 """Пакет для работы с пользователями."""
 
-from .model import User
+from .model import UserModel

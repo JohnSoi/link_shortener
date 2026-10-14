@@ -7,7 +7,7 @@ from app.core import DEFAULT_STRING_LENGTH
 from app.core.database import BaseModel, DatetimeMixin
 
 
-class User(BaseModel, DatetimeMixin):
+class UserModel(BaseModel, DatetimeMixin):
     """
     Модель пользователя.
 

@@ -1,10 +1,6 @@
 """Базовая модель."""
 
-import re
-
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-
-from app.core.database.consts import CAMEL_CASE_ABBR_REGEX, CAMEL_CASE_REGEX, REPLACE_PATTERN
 
 
 class BaseModel(DeclarativeBase):

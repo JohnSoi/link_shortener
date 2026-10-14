@@ -28,3 +28,8 @@ docker compose logs -f <название контейнера>
 ```bash
 docker-compose up --build <название контейнера>
 ```
+## Статусы проверок:
+
+* Backend: 
+
+[![Backend CI](https://github.com/JohnSoi/link_shortener/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/JohnSoi/link_shortener/actions/workflows/backend-ci.yml)
