@@ -87,10 +87,7 @@ class UserRepository:
         query: Select = select(self._MODEL).filter_by(**filters)
         result: Result[UserModel] = await self._async_session.execute(query)
 
-        if result:
-            return result.fetchall()
-
-        return None
+        return result.fetchall()
 
     async def create(self, data: dict[str, Any]) -> UserModel:
         """

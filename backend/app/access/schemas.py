@@ -3,7 +3,7 @@
 from pydantic import BaseModel, EmailStr, Field
 
 from app.core import DEFAULT_STRING_LENGTH
-from app.core.access import MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH
+from app.core.access import MAX_PASSWORD_LENGTH, MIN_EMAIL_LENGTH, MIN_PASSWORD_LENGTH
 
 
 class UserRegisterData(BaseModel):
@@ -25,7 +25,7 @@ class UserRegisterData(BaseModel):
         max_length=DEFAULT_STRING_LENGTH,
     )
     password: str = Field(
-        ..., min_length=MIN_PASSWORD_LENGTH, max_length=DEFAULT_STRING_LENGTH, description="Пароль пользователя"
+        ..., min_length=MIN_PASSWORD_LENGTH, max_length=MAX_PASSWORD_LENGTH, description="Пароль пользователя"
     )
 
 

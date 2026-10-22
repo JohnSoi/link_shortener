@@ -37,4 +37,7 @@ class DatetimeMixin:
         Returns:
             bool: True, если запись была создана, False - обновлена.
         """
-        return self.created_at == self.updated_at
+        created_at = self.created_at.replace(microsecond=0)
+        updated_at = self.updated_at.replace(microsecond=0)
+
+        return created_at == updated_at

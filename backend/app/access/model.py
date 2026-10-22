@@ -18,5 +18,7 @@ class UserModel(BaseModel, DatetimeMixin):
 
     __tablename__ = "users"
 
+    _PROTECTED_FIELDS = ("password_hash",)
+
     email: Mapped[str] = mapped_column(String(DEFAULT_STRING_LENGTH), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(DEFAULT_STRING_LENGTH), nullable=False)

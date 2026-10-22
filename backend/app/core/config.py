@@ -3,6 +3,7 @@
 from pathlib import Path
 from typing import Literal
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -31,8 +32,8 @@ class DatabaseConfig(BaseSettings):
     NAME: str = "link_shortener_db"
     HOST: str = "localhost"
     PORT: int = 5432
-    USER: str
-    PASSWORD: str
+    USER: str = Field(..., description="Пользователь для доступа к БД")
+    PASSWORD: str = Field(..., description="Пароль доступа к БД")
     TYPE: str = "postgresql"
     ENGINE: str = "asyncpg"
 

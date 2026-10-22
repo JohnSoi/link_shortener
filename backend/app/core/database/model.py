@@ -33,6 +33,8 @@ class BaseModel(DeclarativeBase):
 
     __abstract__: bool = True
 
+    _PROTECTED_FIELDS: tuple[str, ...] = ()
+
     id: Mapped[int] = mapped_column(primary_key=True)
 
     def to_dict(self) -> dict:
@@ -42,7 +44,11 @@ class BaseModel(DeclarativeBase):
         Returns:
             dict: Словарь с атрибутами объекта.
         """
-        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+        return {
+            column.name: getattr(self, column.name)
+            for column in self.__table__.columns
+            if column.name not in self._PROTECTED_FIELDS
+        }
 
     def __repr__(self) -> str:
         """Строковое представление объекта."""

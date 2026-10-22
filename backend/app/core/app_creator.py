@@ -75,8 +75,7 @@ class AppCreator:
 
         return self
 
-    @staticmethod
-    async def __health_check(async_db_session: AsyncSession = Depends(get_async_db_session)) -> dict:  # noqa: B008
+    async def __health_check(self, async_db_session: AsyncSession = Depends(get_async_db_session)) -> dict:  # noqa: B008
         """
         Маршрут для проверки состояния приложения.
 
@@ -93,7 +92,6 @@ class AppCreator:
 
             params.update(
                 {
-                    "db_url": app_config.db.url,
                     "db_connected": db_check_query.scalar() == 1,
                 }
             )
